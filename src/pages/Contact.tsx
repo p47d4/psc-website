@@ -1,0 +1,204 @@
+import { useState } from "react";
+import Layout from "@/components/layout/Layout";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { Mail, MapPin, Send } from "lucide-react";
+
+const Contact = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    organization: "",
+    email: "",
+    message: "",
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    toast({
+      title: "Message Sent",
+      description: "Thank you for your inquiry. We will respond within 24-48 hours.",
+    });
+
+    setFormData({
+      name: "",
+      organization: "",
+      email: "",
+      message: "",
+    });
+    setIsSubmitting(false);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  return (
+    <Layout>
+      {/* Page Header */}
+      <section className="section-padding bg-secondary/30">
+        <div className="container-wide">
+          <div className="max-w-3xl">
+            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
+              Get In Touch
+            </p>
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
+              Contact Us
+            </h1>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              We welcome inquiries from organizations seeking research, risk analysis, and strategic advisory support.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="section-padding bg-background">
+        <div className="container-wide">
+          <div className="grid lg:grid-cols-2 gap-16">
+            {/* Form */}
+            <div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+                Send Us a Message
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Complete the form below and a member of our team will respond within 24-48 hours.
+              </p>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
+                    Full Name <span className="text-primary">*</span>
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Your full name"
+                    className="h-12"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="organization" className="block text-sm font-medium text-foreground mb-2">
+                    Organization <span className="text-primary">*</span>
+                  </label>
+                  <Input
+                    id="organization"
+                    name="organization"
+                    type="text"
+                    required
+                    value={formData.organization}
+                    onChange={handleChange}
+                    placeholder="Your organization"
+                    className="h-12"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                    Email Address <span className="text-primary">*</span>
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="you@organization.com"
+                    className="h-12"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
+                    Message <span className="text-primary">*</span>
+                  </label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Please describe how we can help your organization..."
+                    rows={6}
+                  />
+                </div>
+
+                <Button type="submit" variant="hero" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
+                  {isSubmitting ? (
+                    "Sending..."
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="ml-2 h-4 w-4" />
+                    </>
+                  )}
+                </Button>
+              </form>
+            </div>
+
+            {/* Contact Info */}
+            <div className="lg:pl-8">
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+                Contact Information
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                For urgent matters or general inquiries, you can also reach us directly.
+              </p>
+
+              <div className="space-y-6 mb-12">
+                <div className="flex items-start gap-4 p-6 bg-secondary/50 rounded-lg">
+                  <Mail className="h-6 w-6 text-primary mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">Email</h3>
+                    <a
+                      href="mailto:info@pathstrategyconsulting.com"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      info@pathstrategyconsulting.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4 p-6 bg-secondary/50 rounded-lg">
+                  <MapPin className="h-6 w-6 text-primary mt-0.5" />
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">Location</h3>
+                    <p className="text-muted-foreground">Lagos, Nigeria</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-8 bg-accent rounded-lg">
+                <h3 className="font-display text-xl font-semibold text-accent-foreground mb-4">
+                  Working With PSC
+                </h3>
+                <p className="text-accent-foreground/80 text-sm leading-relaxed">
+                  We work with government agencies, multilateral institutions, development partners, and private sector organizations. Each engagement is tailored to the specific needs and context of our clients.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </Layout>
+  );
+};
+
+export default Contact;
