@@ -1,6 +1,7 @@
 import Layout from "@/components/layout/Layout";
 import PageHeader from "@/components/sections/PageHeader";
 import { Target, Eye, Compass } from "lucide-react";
+import aboutImage from "@/assets/aa.png";
 
 const About = () => {
   return (
@@ -34,7 +35,21 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-burgundy-light via-gold-light to-navy-light rounded-2xl p-10 border border-primary/10">
+            <div className="relative">
+              <img 
+                src={aboutImage} 
+                alt="About Path Strategy Consulting" 
+                className="w-full h-auto rounded-2xl shadow-xl object-cover"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission, Vision, Approach Section */}
+      <section className="section-padding bg-background">
+        <div className="container-wide">
+          <div className="bg-gradient-to-br from-burgundy-light via-gold-light to-navy-light rounded-2xl p-10 border border-primary/10 max-w-4xl mx-auto">
               <div className="space-y-8">
                 <div className="flex gap-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary flex items-center justify-center shadow-lg">
@@ -78,7 +93,6 @@ const About = () => {
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* Values Section */}

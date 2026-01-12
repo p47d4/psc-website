@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import homeImage from "@/assets/ab.png";
 
 const Hero = () => {
   return (
@@ -11,27 +12,36 @@ const Hero = () => {
       }} />
       
       <div className="container-wide relative z-10">
-        <div className="max-w-3xl animate-fade-in-up">
-          <p className="text-primary font-medium tracking-widest uppercase text-sm mb-6">
-            Research & Advisory
-          </p>
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-[1.1]">
-            Insight. Strategy.<br />
-            <span className="text-primary">Impact.</span>
-          </h1>
-          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl">
-            Providing actionable insights and strategic solutions to organizations operating in complex political, economic, and market environments across Africa.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="hero" size="xl" asChild>
-              <Link to="/contact">
-                Engage PSC
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-            <Button variant="heroOutline" size="xl" asChild>
-              <Link to="/services">Our Services</Link>
-            </Button>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-3xl animate-fade-in-up">
+            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-6">
+              Research & Advisory
+            </p>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-[1.1]">
+              Insight. Strategy.<br />
+              <span className="text-primary">Impact.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-10 max-w-2xl">
+              Providing actionable insights and strategic solutions to organizations operating in complex political, economic, and market environments across Africa.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button variant="hero" size="xl" asChild>
+                <Link to="/contact">
+                  Engage PSC
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
+              <Button variant="heroOutline" size="xl" asChild>
+                <Link to="/services">Our Services</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="hidden lg:block animate-fade-in-up" style={{ animationDelay: "0.2s" }}>
+            <img 
+              src={homeImage} 
+              alt="Path Strategy Consulting" 
+              className="w-full h-auto rounded-2xl shadow-2xl object-cover"
+            />
           </div>
         </div>
       </div>

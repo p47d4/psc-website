@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, MapPin, Send } from "lucide-react";
+import contactImage from "@/assets/bc.png";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -56,15 +57,29 @@ const Contact = () => {
       {/* Contact Form Section */}
       <section className="section-padding bg-background">
         <div className="container-wide">
+          <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
+            <div>
+              <img 
+                src={contactImage} 
+                alt="Contact Path Strategy Consulting" 
+                className="w-full h-auto rounded-2xl shadow-xl object-cover"
+              />
+            </div>
+            <div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+                Get In Touch
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                We welcome inquiries from organizations seeking research, risk analysis, and strategic advisory support. Complete the form below and a member of our team will respond within 24-48 hours.
+              </p>
+            </div>
+          </div>
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Form */}
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
                 Send Us a Message
               </h2>
-              <p className="text-muted-foreground mb-8">
-                Complete the form below and a member of our team will respond within 24-48 hours.
-              </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
