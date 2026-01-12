@@ -3,37 +3,49 @@ import PageHeader from "@/components/sections/PageHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Building2, Globe2, Landmark, Briefcase } from "lucide-react";
+import nnpcLogo from "@/assets/nnpc_logo.png";
+import afdbLogo from "@/assets/afdb logo.png";
+import usaidLogo from "@/assets/usaid logo.png";
+import koicaLogo from "@/assets/koica logo.png";
+import cbnLogo from "@/assets/cbn logo.png";
+import creativeLogo from "@/assets/creative logo.png";
 
 const clients = [
   {
     name: "NNPC Ltd",
     category: "Energy & Resources",
     description: "Nigeria's national oil company, overseeing petroleum sector operations and development.",
+    logo: nnpcLogo,
   },
   {
     name: "African Development Bank (AfDB)",
     category: "Multilateral Development",
     description: "Africa's premier development finance institution, driving sustainable economic development across the continent.",
+    logo: afdbLogo,
   },
   {
     name: "United States Agency for International Development (USAID)",
     category: "Development Partner",
     description: "Leading international development agency supporting democratic governance and economic growth.",
+    logo: usaidLogo,
   },
   {
     name: "Korea International Cooperation Agency (KOICA)",
     category: "Development Partner",
     description: "Korea's bilateral development agency supporting sustainable development in partner countries.",
+    logo: koicaLogo,
   },
   {
     name: "Central Bank of Nigeria (CBN)",
     category: "Financial Institution",
     description: "Nigeria's apex monetary authority, responsible for monetary policy and financial system stability.",
+    logo: cbnLogo,
   },
   {
     name: "Creative Associates International",
     category: "International Development",
     description: "Global development organization delivering innovative solutions in education, governance, and economic growth.",
+    logo: creativeLogo,
   },
 ];
 
@@ -122,6 +134,13 @@ const Clients = () => {
               const colorClass = colors[index % 3];
               return (
                 <div key={client.name} className={`bg-card rounded-xl border border-border border-l-4 ${colorClass} p-8 hover:shadow-lg transition-shadow`}>
+                  <div className="mb-6 flex justify-center">
+                    <img 
+                      src={client.logo} 
+                      alt={client.name}
+                      className="h-20 w-auto object-contain max-w-full"
+                    />
+                  </div>
                   <div className="mb-4">
                     <span className="text-xs font-semibold uppercase tracking-widest text-primary bg-burgundy-light px-3 py-1 rounded-full">
                       {client.category}

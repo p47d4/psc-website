@@ -1,14 +1,20 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import nnpcLogo from "@/assets/nnpc_logo.png";
+import afdbLogo from "@/assets/afdb logo.png";
+import usaidLogo from "@/assets/usaid logo.png";
+import koicaLogo from "@/assets/koica logo.png";
+import cbnLogo from "@/assets/cbn logo.png";
+import creativeLogo from "@/assets/creative logo.png";
 
 const clients = [
-  "NNPC Ltd",
-  "African Development Bank (AfDB)",
-  "United States Agency for International Development (USAID)",
-  "Korea International Cooperation Agency (KOICA)",
-  "Central Bank of Nigeria (CBN)",
-  "Creative Associates International",
+  { name: "NNPC Ltd", logo: nnpcLogo },
+  { name: "African Development Bank (AfDB)", logo: afdbLogo },
+  { name: "United States Agency for International Development (USAID)", logo: usaidLogo },
+  { name: "Korea International Cooperation Agency (KOICA)", logo: koicaLogo },
+  { name: "Central Bank of Nigeria (CBN)", logo: cbnLogo },
+  { name: "Creative Associates International", logo: creativeLogo },
 ];
 
 const colors = [
@@ -39,11 +45,16 @@ const ClientsSection = () => {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
           {clients.map((client, index) => (
             <div
-              key={client}
-              className={`p-6 rounded-lg border border-border border-l-4 ${colors[index]} bg-card text-center hover:shadow-md transition-shadow`}
+              key={client.name}
+              className={`p-6 rounded-lg border border-border border-l-4 ${colors[index]} bg-card text-center hover:shadow-md transition-shadow flex flex-col items-center justify-center`}
             >
+              <img 
+                src={client.logo} 
+                alt={client.name}
+                className="h-16 w-auto mb-4 object-contain max-w-full"
+              />
               <p className="font-medium text-foreground text-sm md:text-base">
-                {client}
+                {client.name}
               </p>
             </div>
           ))}
