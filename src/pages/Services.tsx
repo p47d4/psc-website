@@ -1,4 +1,5 @@
 import Layout from "@/components/layout/Layout";
+import PageHeader from "@/components/sections/PageHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Search, BarChart3, Shield, FileSearch, MessageSquare, Lightbulb } from "lucide-react";
@@ -16,6 +17,7 @@ const services = [
     ],
     forWho: "Government agencies, development partners, NGOs, and research institutions.",
     value: "Enables evidence-based policy formulation and program design.",
+    color: "bg-primary",
   },
   {
     icon: BarChart3,
@@ -29,6 +31,7 @@ const services = [
     ],
     forWho: "Investors, corporations, and organizations seeking market opportunities in Africa.",
     value: "Informs strategic decisions with comprehensive, localized market intelligence.",
+    color: "bg-gold",
   },
   {
     icon: Shield,
@@ -42,6 +45,7 @@ const services = [
     ],
     forWho: "Investors, multinational corporations, and institutions operating in or entering African markets.",
     value: "Reduces exposure to political and economic volatility through proactive risk management.",
+    color: "bg-navy",
   },
   {
     icon: FileSearch,
@@ -55,6 +59,7 @@ const services = [
     ],
     forWho: "Development finance institutions, private equity firms, and corporate investors.",
     value: "Mitigates investment risk through comprehensive background analysis and verification.",
+    color: "bg-primary",
   },
   {
     icon: MessageSquare,
@@ -68,6 +73,7 @@ const services = [
     ],
     forWho: "Government agencies, development programs, and organizations seeking to build coalitions.",
     value: "Builds support for reforms and initiatives through strategic stakeholder engagement.",
+    color: "bg-gold",
   },
   {
     icon: Lightbulb,
@@ -81,28 +87,18 @@ const services = [
     ],
     forWho: "Government ministries, development partners, and organizations driving change initiatives.",
     value: "Accelerates reform and transformation through expert guidance and practical support.",
+    color: "bg-navy",
   },
 ];
 
 const Services = () => {
   return (
     <Layout>
-      {/* Page Header */}
-      <section className="section-padding bg-secondary/30">
-        <div className="container-wide">
-          <div className="max-w-3xl">
-            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
-              What We Offer
-            </p>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Our Services
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Comprehensive research and advisory services to help organizations navigate complexity and achieve their strategic objectives.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        label="What We Offer"
+        title="Our Services"
+        description="Comprehensive research and advisory services to help organizations navigate complexity and achieve their strategic objectives."
+      />
 
       {/* Services Grid */}
       <section className="section-padding bg-background">
@@ -117,8 +113,8 @@ const Services = () => {
               >
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-lg bg-primary flex items-center justify-center">
-                      <service.icon className="h-7 w-7 text-primary-foreground" />
+                    <div className={`w-14 h-14 rounded-lg ${service.color} flex items-center justify-center shadow-lg`}>
+                      <service.icon className="h-7 w-7 text-white" />
                     </div>
                     <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
                       {service.title}
@@ -130,20 +126,26 @@ const Services = () => {
                   <ul className="space-y-3 mb-6">
                     {service.details.map((detail) => (
                       <li key={detail} className="flex items-start gap-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                        <span className={`w-2 h-2 rounded-full ${service.color} mt-2 flex-shrink-0`} />
                         <span className="text-foreground">{detail}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-                <div className={`bg-secondary/50 rounded-lg p-8 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
+                <div className={`bg-gradient-to-br from-burgundy-light to-gold-light rounded-xl p-8 border border-primary/10 ${index % 2 === 1 ? "lg:order-1" : ""}`}>
                   <div className="space-y-6">
                     <div>
-                      <h3 className="font-semibold text-foreground mb-2">Who It's For</h3>
+                      <h3 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${service.color}`} />
+                        Who It's For
+                      </h3>
                       <p className="text-muted-foreground">{service.forWho}</p>
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-2">The Value</h3>
+                      <h3 className="font-semibold text-foreground mb-2 flex items-center gap-2">
+                        <span className={`w-2 h-2 rounded-full ${service.color}`} />
+                        The Value
+                      </h3>
                       <p className="text-muted-foreground">{service.value}</p>
                     </div>
                   </div>
@@ -155,7 +157,7 @@ const Services = () => {
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-accent">
+      <section className="section-padding bg-gradient-to-r from-accent via-navy to-accent">
         <div className="container-wide text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold text-accent-foreground mb-6">
             Need a Custom Solution?
@@ -166,7 +168,7 @@ const Services = () => {
           <Button
             variant="hero"
             size="xl"
-            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            className="bg-gold text-white hover:bg-gold/90 shadow-xl"
             asChild
           >
             <Link to="/contact">
