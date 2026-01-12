@@ -1,4 +1,5 @@
 import Layout from "@/components/layout/Layout";
+import PageHeader from "@/components/sections/PageHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Globe, Layers, Users, Target, CheckCircle } from "lucide-react";
@@ -14,6 +15,7 @@ const differentiators = [
       "Established networks across government, business, and civil society",
       "Contextual knowledge that informs actionable recommendations",
     ],
+    color: "primary",
   },
   {
     icon: Layers,
@@ -25,6 +27,7 @@ const differentiators = [
       "Holistic solutions that address complex challenges",
       "Consistent quality across all service areas",
     ],
+    color: "gold",
   },
   {
     icon: Users,
@@ -36,6 +39,7 @@ const differentiators = [
       "Reputation for integrity and reliability",
       "Collaborative approach that prioritizes client success",
     ],
+    color: "navy",
   },
   {
     icon: Target,
@@ -47,85 +51,83 @@ const differentiators = [
       "Outputs tailored to client needs and contexts",
       "Focus on real-world impact and results",
     ],
+    color: "primary",
   },
 ];
+
+const colorMap = {
+  primary: { bg: "bg-primary", text: "text-primary" },
+  gold: { bg: "bg-gold", text: "text-gold" },
+  navy: { bg: "bg-navy", text: "text-navy" },
+};
 
 const WhyPSC = () => {
   return (
     <Layout>
-      {/* Page Header */}
-      <section className="section-padding bg-secondary/30">
-        <div className="container-wide">
-          <div className="max-w-3xl">
-            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
-              Our Differentiators
-            </p>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Why Path Strategy Consulting
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              What sets PSC apart in delivering value to clients navigating complex environments.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        label="Our Differentiators"
+        title="Why Path Strategy Consulting"
+        description="What sets PSC apart in delivering value to clients navigating complex environments."
+      />
 
       {/* Differentiators */}
       <section className="section-padding bg-background">
         <div className="container-wide">
           <div className="space-y-20">
-            {differentiators.map((item, index) => (
-              <div
-                key={item.title}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "" : ""
-                }`}
-              >
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-14 h-14 rounded-lg bg-primary flex items-center justify-center">
-                      <item.icon className="h-7 w-7 text-primary-foreground" />
+            {differentiators.map((item, index) => {
+              const colors = colorMap[item.color as keyof typeof colorMap];
+              return (
+                <div
+                  key={item.title}
+                  className={`grid lg:grid-cols-2 gap-12 items-center`}
+                >
+                  <div className={index % 2 === 1 ? "lg:order-2" : ""}>
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className={`w-14 h-14 rounded-lg ${colors.bg} flex items-center justify-center shadow-lg`}>
+                        <item.icon className="h-7 w-7 text-white" />
+                      </div>
+                      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
+                        {item.title}
+                      </h2>
                     </div>
-                    <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground">
-                      {item.title}
-                    </h2>
+                    <p className="text-muted-foreground text-lg leading-relaxed mb-8">
+                      {item.description}
+                    </p>
+                    <ul className="space-y-4">
+                      {item.points.map((point) => (
+                        <li key={point} className="flex items-start gap-3">
+                          <CheckCircle className={`h-5 w-5 ${colors.text} mt-0.5 flex-shrink-0`} />
+                          <span className="text-foreground">{point}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className="text-muted-foreground text-lg leading-relaxed mb-8">
-                    {item.description}
-                  </p>
-                  <ul className="space-y-4">
-                    {item.points.map((point) => (
-                      <li key={point} className="flex items-start gap-3">
-                        <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                        <span className="text-foreground">{point}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                  <div className="aspect-square bg-gradient-to-br from-secondary to-secondary/30 rounded-lg flex items-center justify-center">
-                    <item.icon className="h-32 w-32 text-primary/20" />
+                  <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
+                    <div className="aspect-square bg-gradient-to-br from-burgundy-light via-gold-light to-navy-light rounded-2xl flex items-center justify-center border border-primary/10 shadow-inner">
+                      <div className={`w-32 h-32 rounded-full ${colors.bg} opacity-20 absolute blur-2xl`} />
+                      <item.icon className={`h-32 w-32 ${colors.text} opacity-30`} />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-accent">
+      <section className="section-padding bg-gradient-to-r from-primary via-burgundy-dark to-navy">
         <div className="container-wide text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-accent-foreground mb-6">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6">
             Experience the PSC Difference
           </h2>
-          <p className="text-accent-foreground/80 text-lg max-w-2xl mx-auto mb-10">
+          <p className="text-white/80 text-lg max-w-2xl mx-auto mb-10">
             Partner with a firm that combines expertise, integrity, and a relentless focus on delivering results.
           </p>
           <Button
             variant="hero"
             size="xl"
-            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            className="bg-gold text-white hover:bg-gold/90 shadow-xl"
             asChild
           >
             <Link to="/contact">

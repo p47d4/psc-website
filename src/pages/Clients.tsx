@@ -1,4 +1,5 @@
 import Layout from "@/components/layout/Layout";
+import PageHeader from "@/components/sections/PageHeader";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Building2, Globe2, Landmark, Briefcase } from "lucide-react";
@@ -41,43 +42,36 @@ const sectors = [
     icon: Landmark,
     title: "Government & Public Sector",
     description: "Ministries, departments, agencies, and regulatory bodies.",
+    color: "bg-primary",
   },
   {
     icon: Globe2,
     title: "Development Partners",
     description: "Multilateral institutions, bilateral agencies, and international NGOs.",
+    color: "bg-gold",
   },
   {
     icon: Briefcase,
     title: "Private Sector",
     description: "Investors, corporations, and financial institutions.",
+    color: "bg-navy",
   },
   {
     icon: Building2,
     title: "Civil Society",
     description: "Research institutions, think tanks, and advocacy organizations.",
+    color: "bg-primary",
   },
 ];
 
 const Clients = () => {
   return (
     <Layout>
-      {/* Page Header */}
-      <section className="section-padding bg-secondary/30">
-        <div className="container-wide">
-          <div className="max-w-3xl">
-            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
-              Our Track Record
-            </p>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Clients & Experience
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              We are proud to partner with leading institutions across the public and private sectors, delivering insights that inform critical decisions.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        label="Our Track Record"
+        title="Clients & Experience"
+        description="We are proud to partner with leading institutions across the public and private sectors, delivering insights that inform critical decisions."
+      />
 
       {/* Sectors We Serve */}
       <section className="section-padding bg-background">
@@ -93,9 +87,9 @@ const Clients = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {sectors.map((sector) => (
-              <div key={sector.title} className="text-center p-8 bg-secondary/30 rounded-lg">
-                <div className="w-14 h-14 rounded-lg bg-primary mx-auto flex items-center justify-center mb-6">
-                  <sector.icon className="h-7 w-7 text-primary-foreground" />
+              <div key={sector.title} className="text-center p-8 bg-gradient-to-br from-burgundy-light to-gold-light rounded-xl border border-primary/10 hover:shadow-lg transition-shadow">
+                <div className={`w-14 h-14 rounded-lg ${sector.color} mx-auto flex items-center justify-center mb-6 shadow-lg`}>
+                  <sector.icon className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="font-display text-xl font-semibold text-foreground mb-3">
                   {sector.title}
@@ -110,8 +104,9 @@ const Clients = () => {
       </section>
 
       {/* Selected Clients */}
-      <section className="section-padding bg-secondary/30">
-        <div className="container-wide">
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-burgundy-light via-background to-navy-light opacity-60" />
+        <div className="container-wide relative z-10">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
               Selected Clients
@@ -122,38 +117,42 @@ const Clients = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {clients.map((client) => (
-              <div key={client.name} className="bg-background rounded-lg border border-border p-8 hover:shadow-md transition-shadow">
-                <div className="mb-4">
-                  <span className="text-xs font-medium uppercase tracking-widest text-primary">
-                    {client.category}
-                  </span>
+            {clients.map((client, index) => {
+              const colors = ["border-l-primary", "border-l-gold", "border-l-navy"];
+              const colorClass = colors[index % 3];
+              return (
+                <div key={client.name} className={`bg-card rounded-xl border border-border border-l-4 ${colorClass} p-8 hover:shadow-lg transition-shadow`}>
+                  <div className="mb-4">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-primary bg-burgundy-light px-3 py-1 rounded-full">
+                      {client.category}
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl font-semibold text-foreground mb-3">
+                    {client.name}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {client.description}
+                  </p>
                 </div>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-3">
-                  {client.name}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
-                  {client.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="section-padding bg-accent">
+      <section className="section-padding bg-gradient-to-r from-accent via-navy to-primary">
         <div className="container-wide text-center">
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-accent-foreground mb-6">
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-white mb-6">
             Join Our Growing Client Portfolio
           </h2>
-          <p className="text-accent-foreground/80 text-lg max-w-2xl mx-auto mb-10">
+          <p className="text-white/80 text-lg max-w-2xl mx-auto mb-10">
             Let us show you how PSC can help your organization navigate complexity and achieve its strategic objectives.
           </p>
           <Button
             variant="hero"
             size="xl"
-            className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+            className="bg-gold text-white hover:bg-gold/90 shadow-xl"
             asChild
           >
             <Link to="/contact">

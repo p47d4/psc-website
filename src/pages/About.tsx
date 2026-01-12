@@ -1,31 +1,24 @@
 import Layout from "@/components/layout/Layout";
+import PageHeader from "@/components/sections/PageHeader";
 import { Target, Eye, Compass } from "lucide-react";
 
 const About = () => {
   return (
     <Layout>
-      {/* Page Header */}
-      <section className="section-padding bg-secondary/30">
-        <div className="container-wide">
-          <div className="max-w-3xl">
-            <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
-              Who We Are
-            </p>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              About Path Strategy Consulting
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              A research and advisory firm founded in 2013 to provide actionable insights and strategic solutions to organizations operating in complex environments.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        label="Who We Are"
+        title="About Path Strategy Consulting"
+        description="A research and advisory firm founded in 2013 to provide actionable insights and strategic solutions to organizations operating in complex environments."
+      />
 
       {/* Story Section */}
       <section className="section-padding bg-background">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
+              <div className="inline-block px-4 py-1 bg-gold-light text-gold-foreground text-sm font-medium rounded-full mb-4">
+                Since 2013
+              </div>
               <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
                 Our Story
               </h2>
@@ -41,10 +34,10 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-secondary/50 rounded-lg p-10">
+            <div className="bg-gradient-to-br from-burgundy-light via-gold-light to-navy-light rounded-2xl p-10 border border-primary/10">
               <div className="space-y-8">
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary flex items-center justify-center shadow-lg">
                     <Target className="h-6 w-6 text-primary-foreground" />
                   </div>
                   <div>
@@ -57,8 +50,8 @@ const About = () => {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-                    <Eye className="h-6 w-6 text-primary-foreground" />
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-gold flex items-center justify-center shadow-lg">
+                    <Eye className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <h3 className="font-display text-xl font-semibold text-foreground mb-2">
@@ -70,8 +63,8 @@ const About = () => {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary flex items-center justify-center">
-                    <Compass className="h-6 w-6 text-primary-foreground" />
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-navy flex items-center justify-center shadow-lg">
+                    <Compass className="h-6 w-6 text-white" />
                   </div>
                   <div>
                     <h3 className="font-display text-xl font-semibold text-foreground mb-2">
@@ -89,8 +82,9 @@ const About = () => {
       </section>
 
       {/* Values Section */}
-      <section className="section-padding bg-secondary/30">
-        <div className="container-wide">
+      <section className="section-padding relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-burgundy-light via-background to-gold-light opacity-50" />
+        <div className="container-wide relative z-10">
           <div className="text-center mb-16">
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-6">
               What Guides Us
@@ -101,18 +95,22 @@ const About = () => {
               {
                 title: "Rigor",
                 description: "We apply rigorous methodologies and maintain the highest standards of analytical quality in all our work.",
+                color: "bg-primary",
               },
               {
                 title: "Integrity",
                 description: "We are honest, transparent, and objective in our analysis and recommendations.",
+                color: "bg-gold",
               },
               {
                 title: "Impact",
                 description: "We focus on delivering insights that translate into real-world decisions and measurable outcomes.",
+                color: "bg-navy",
               },
             ].map((value) => (
-              <div key={value.title} className="text-center p-8 bg-background rounded-lg border border-border">
-                <h3 className="font-display text-2xl font-semibold text-primary mb-4">
+              <div key={value.title} className="text-center p-8 bg-card rounded-xl border border-border shadow-sm hover:shadow-md transition-shadow">
+                <div className={`w-16 h-1 ${value.color} mx-auto mb-6 rounded-full`} />
+                <h3 className="font-display text-2xl font-semibold text-foreground mb-4">
                   {value.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">

@@ -11,14 +11,23 @@ const clients = [
   "Creative Associates International",
 ];
 
+const colors = [
+  "border-l-primary",
+  "border-l-gold",
+  "border-l-navy",
+  "border-l-primary",
+  "border-l-gold",
+  "border-l-navy",
+];
+
 const ClientsSection = () => {
   return (
     <section className="section-padding bg-background">
       <div className="container-wide">
         <div className="text-center mb-16">
-          <p className="text-primary font-medium tracking-widest uppercase text-sm mb-4">
+          <div className="inline-block px-4 py-1 bg-navy-light text-navy text-sm font-semibold rounded-full mb-4">
             Trusted By
-          </p>
+          </div>
           <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
             Selected Clients
           </h2>
@@ -28,10 +37,10 @@ const ClientsSection = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
-          {clients.map((client) => (
+          {clients.map((client, index) => (
             <div
               key={client}
-              className="p-6 rounded-lg border border-border bg-card text-center hover:shadow-md transition-shadow"
+              className={`p-6 rounded-lg border border-border border-l-4 ${colors[index]} bg-card text-center hover:shadow-md transition-shadow`}
             >
               <p className="font-medium text-foreground text-sm md:text-base">
                 {client}
@@ -41,7 +50,7 @@ const ClientsSection = () => {
         </div>
 
         <div className="text-center">
-          <Button variant="outline" size="lg" asChild>
+          <Button variant="outline" size="lg" className="border-2 border-primary text-primary hover:bg-primary hover:text-white" asChild>
             <Link to="/clients">
               View All Experience
               <ArrowRight className="ml-2 h-4 w-4" />
