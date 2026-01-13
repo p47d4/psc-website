@@ -28,7 +28,7 @@ const colors = [
 
 const ClientsSection = () => {
   return (
-    <section className="section-padding bg-background">
+    <section className="section-padding bg-gradient-to-b from-background to-burgundy-light/20">
       <div className="container-wide">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-1 bg-navy-light text-navy text-sm font-semibold rounded-full mb-4">

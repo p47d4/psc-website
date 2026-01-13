@@ -1,4 +1,5 @@
 import { Search, BarChart3, Shield, FileSearch, MessageSquare, Lightbulb } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const capabilities = [
   {
@@ -47,7 +48,7 @@ const capabilities = [
 
 const Capabilities = () => {
   return (
-    <section className="section-padding bg-background">
+    <section className="section-padding bg-gradient-to-b from-background to-navy-light/30">
       <div className="container-wide">
         <div className="text-center mb-16">
           <div className="inline-block px-4 py-1 bg-burgundy-light text-primary text-sm font-semibold rounded-full mb-4">
@@ -63,9 +64,10 @@ const Capabilities = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {capabilities.map((capability, index) => (
-            <div
+            <Link
+              to="/services"
               key={capability.title}
-              className="card-elevated p-8 group cursor-pointer"
+              className="card-elevated p-8 group cursor-pointer hover:border-primary/20 transition-all"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className={`w-14 h-14 rounded-lg ${capability.color}/10 ${capability.hoverBg} flex items-center justify-center mb-6 transition-colors`}>
@@ -78,7 +80,7 @@ const Capabilities = () => {
                 {capability.description}
               </p>
               <div className={`w-12 h-1 ${capability.color} mt-6 rounded-full opacity-60 group-hover:w-20 transition-all duration-300`} />
-            </div>
+            </Link>
           ))}
         </div>
       </div>
