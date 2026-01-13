@@ -24,11 +24,22 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+      // Save submission to database
+      const { error: dbError } = await supabase.from("contact_submissions").insert({
+        name: formData.name,
+        email: formData.email,
+        organization: formData.organization,
+        message: formData.message,
+      });
+
+      if (dbError) throw dbError;
+
+      // Send email notification
+      const { error } = await supabase.functions.invoke('send-contact-email', {
         body: formData,
       });
 
-      if (error) throw error;
+      if (error) console.error("Email error:", error);
 
       toast({
         title: "Message Sent Successfully",
