@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, MapPin, Send } from "lucide-react";
+import { Mail, MapPin, Send, Clock, CheckCircle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import contactImage from "@/assets/bc.png";
 
 const Contact = () => {
@@ -22,21 +23,34 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: formData,
+      });
 
-    toast({
-      title: "Message Sent",
-      description: "Thank you for your inquiry. We will respond within 24-48 hours.",
-    });
+      if (error) throw error;
 
-    setFormData({
-      name: "",
-      organization: "",
-      email: "",
-      message: "",
-    });
-    setIsSubmitting(false);
+      toast({
+        title: "Message Sent Successfully",
+        description: "Thank you for your inquiry. We will respond within 24-48 hours.",
+      });
+
+      setFormData({
+        name: "",
+        organization: "",
+        email: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Error sending message:", error);
+      toast({
+        title: "Error Sending Message",
+        description: "There was an issue sending your message. Please try again or email us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -54,10 +68,10 @@ const Contact = () => {
         description="We welcome inquiries from organizations seeking research, risk analysis, and strategic advisory support."
       />
 
-      {/* Contact Form Section */}
-      <section className="section-padding bg-background">
+      {/* Contact Intro Section */}
+      <section className="section-padding bg-gradient-to-b from-burgundy-light/30 to-background">
         <div className="container-wide">
-          <div className="grid lg:grid-cols-2 gap-16 items-center mb-16">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               <img 
                 src={contactImage} 
@@ -67,19 +81,42 @@ const Contact = () => {
             </div>
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
-                Get In Touch
+                Let's Start a Conversation
               </h2>
-              <p className="text-muted-foreground mb-8">
-                We welcome inquiries from organizations seeking research, risk analysis, and strategic advisory support. Complete the form below and a member of our team will respond within 24-48 hours.
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Whether you're exploring a new market, navigating political risk, or seeking evidence-based insights to inform critical decisions, we're here to help. Our team combines deep expertise with a client-focused approach to deliver results that matter.
               </p>
+              <div className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-primary" />
+                  <span className="text-foreground">Tailored solutions for your specific challenges</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-gold" />
+                  <span className="text-foreground">Deep expertise in African markets</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="h-5 w-5 text-navy" />
+                  <span className="text-foreground">Evidence-based, decision-focused outputs</span>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="section-padding bg-background">
+        <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16">
             {/* Form */}
             <div>
               <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
                 Send Us a Message
               </h2>
+              <p className="text-muted-foreground mb-8">
+                Complete the form below and a member of our team will respond within 24-48 hours.
+              </p>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
@@ -176,10 +213,10 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">Email</h3>
                     <a
-                      href="mailto:info@pathstrategyconsulting.com"
+                      href="mailto:info@pathstrategyconsulting.com.ng"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      info@pathstrategyconsulting.com
+                      info@pathstrategyconsulting.com.ng
                     </a>
                   </div>
                 </div>
@@ -193,14 +230,27 @@ const Contact = () => {
                     <p className="text-muted-foreground">Lagos, Nigeria</p>
                   </div>
                 </div>
+
+                <div className="flex items-start gap-4 p-6 bg-gradient-to-r from-navy-light to-burgundy-light rounded-xl border border-navy/10">
+                  <div className="w-12 h-12 rounded-lg bg-navy flex items-center justify-center shadow-lg">
+                    <Clock className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-foreground mb-1">Response Time</h3>
+                    <p className="text-muted-foreground">Within 24-48 hours</p>
+                  </div>
+                </div>
               </div>
 
               <div className="p-8 bg-gradient-to-br from-accent to-navy rounded-xl">
                 <h3 className="font-display text-xl font-semibold text-white mb-4">
                   Working With PSC
                 </h3>
-                <p className="text-white/80 text-sm leading-relaxed">
+                <p className="text-white/80 text-sm leading-relaxed mb-4">
                   We work with government agencies, multilateral institutions, development partners, and private sector organizations. Each engagement is tailored to the specific needs and context of our clients.
+                </p>
+                <p className="text-white/80 text-sm leading-relaxed">
+                  From initial consultation to final delivery, we maintain close collaboration to ensure our work delivers maximum value.
                 </p>
               </div>
             </div>

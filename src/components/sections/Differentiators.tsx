@@ -1,4 +1,7 @@
 import { Globe, Layers, Users, Target } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const differentiators = [
   {
@@ -50,7 +53,7 @@ const Differentiators = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-12">
           {differentiators.map((item) => (
             <div
               key={item.title}
@@ -69,6 +72,15 @@ const Differentiators = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="text-center">
+          <Button variant="outline" size="lg" className="border-2 border-primary text-primary hover:bg-primary hover:text-white" asChild>
+            <Link to="/why-psc">
+              Learn More About PSC
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
