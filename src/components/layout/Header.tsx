@@ -10,6 +10,7 @@ const navigation = [
   { name: "Services", href: "/services" },
   { name: "Why PSC", href: "/why-psc" },
   { name: "Clients", href: "/clients" },
+  { name: "Insights & Reports", href: "/insights" },
   { name: "Contact", href: "/contact" },
 ];
 

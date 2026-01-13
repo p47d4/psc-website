@@ -27,6 +27,7 @@ const Footer = () => {
                 { name: "Our Services", href: "/services" },
                 { name: "Why PSC", href: "/why-psc" },
                 { name: "Clients & Experience", href: "/clients" },
+                { name: "Insights & Reports", href: "/insights" },
                 { name: "Contact Us", href: "/contact" },
               ].map((link) => (
                 <li key={link.name}>
@@ -38,6 +39,14 @@ const Footer = () => {
                   </Link>
                 </li>
               ))}
+              <li className="pt-2 border-t border-accent-foreground/10">
+                <Link
+                  to="/cms/login"
+                  className="text-accent-foreground/60 hover:text-accent-foreground text-xs transition-colors"
+                >
+                  CMS Login
+                </Link>
+              </li>
             </ul>
           </div>
 
