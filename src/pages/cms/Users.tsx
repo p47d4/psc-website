@@ -3,8 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -14,7 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Loader2, Shield, ShieldOff, Users as UsersIcon, LogOut } from "lucide-react";
+import { ArrowLeft, Loader2, Shield, ShieldOff, Users as UsersIcon, LogOut, Plus, Trash2 } from "lucide-react";
 import { format } from "date-fns";
 import logo from "@/assets/logo.png";
 
@@ -34,6 +44,14 @@ const Users = () => {
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [loadingUsers, setLoadingUsers] = useState(true);
   const [togglingUser, setTogglingUser] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    full_name: "",
+    make_admin: false,
+  });
 
   useEffect(() => {
     if (!loading && (!user || !isAdmin)) {
@@ -49,7 +67,6 @@ const Users = () => {
 
   const fetchUsers = async () => {
     try {
-      // Fetch all profiles
       const { data: profiles, error: profilesError } = await supabase
         .from("profiles")
         .select("*")
@@ -57,7 +74,6 @@ const Users = () => {
 
       if (profilesError) throw profilesError;
 
-      // Fetch all admin roles
       const { data: adminRoles, error: rolesError } = await supabase
         .from("user_roles")
         .select("user_id")
@@ -84,6 +100,37 @@ const Users = () => {
     }
   };
 
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setCreating(true);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("create-user", {
+        body: formData,
+      });
+
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+
+      toast({
+        title: "User Created",
+        description: `User ${formData.email} has been created successfully.`,
+      });
+
+      setDialogOpen(false);
+      setFormData({ email: "", password: "", full_name: "", make_admin: false });
+      fetchUsers();
+    } catch (error: any) {
+      toast({
+        title: "Error Creating User",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setCreating(false);
+    }
+  };
+
   const toggleAdminRole = async (targetUser: UserWithRole) => {
     if (targetUser.user_id === user?.id) {
       toast({
@@ -98,7 +145,6 @@ const Users = () => {
 
     try {
       if (targetUser.is_admin) {
-        // Remove admin role
         const { error } = await supabase
           .from("user_roles")
           .delete()
@@ -106,17 +152,14 @@ const Users = () => {
           .eq("role", "admin");
 
         if (error) throw error;
-
         toast({ title: "Admin Role Removed" });
       } else {
-        // Add admin role
         const { error } = await supabase.from("user_roles").insert({
           user_id: targetUser.user_id,
           role: "admin",
         });
 
         if (error) throw error;
-
         toast({ title: "Admin Role Added" });
       }
 
@@ -167,14 +210,99 @@ const Users = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        <div className="flex items-center gap-4 mb-8">
-          <Button variant="ghost" size="sm" asChild>
-            <Link to="/cms">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Link>
-          </Button>
-          <h1 className="text-2xl font-display font-bold">User Management</h1>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/cms">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back
+              </Link>
+            </Button>
+            <h1 className="text-2xl font-display font-bold">User Management</h1>
+          </div>
+
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Create User
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New User</DialogTitle>
+                <DialogDescription>
+                  Add a new user to the CMS. They will be able to log in immediately.
+                </DialogDescription>
+              </DialogHeader>
+
+              <form onSubmit={handleCreateUser} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2">Full Name</label>
+                  <Input
+                    value={formData.full_name}
+                    onChange={(e) => setFormData((p) => ({ ...p, full_name: e.target.value }))}
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Email *</label>
+                  <Input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
+                    placeholder="user@example.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium mb-2">Password *</label>
+                  <Input
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData((p) => ({ ...p, password: e.target.value }))}
+                    placeholder="Min. 6 characters"
+                    required
+                    minLength={6}
+                  />
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="make_admin"
+                    checked={formData.make_admin}
+                    onCheckedChange={(checked) =>
+                      setFormData((p) => ({ ...p, make_admin: checked === true }))
+                    }
+                  />
+                  <label
+                    htmlFor="make_admin"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Grant admin access
+                  </label>
+                </div>
+
+                <div className="flex justify-end gap-2 pt-4">
+                  <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={creating}>
+                    {creating ? (
+                      <>
+                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                        Creating...
+                      </>
+                    ) : (
+                      "Create User"
+                    )}
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
 
         <Card>
@@ -202,9 +330,7 @@ const Users = () => {
                 <TableBody>
                   {users.map((u) => (
                     <TableRow key={u.id}>
-                      <TableCell className="font-medium">
-                        {u.full_name || "—"}
-                      </TableCell>
+                      <TableCell className="font-medium">{u.full_name || "—"}</TableCell>
                       <TableCell>{u.email}</TableCell>
                       <TableCell>
                         <Badge variant={u.is_admin ? "default" : "secondary"}>
@@ -243,15 +369,6 @@ const Users = () => {
             )}
           </CardContent>
         </Card>
-
-        <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-          <h3 className="font-semibold mb-2">How to add new users:</h3>
-          <p className="text-sm text-muted-foreground">
-            New users can register through the CMS login page. Once registered, you can grant them admin
-            access from this page. Users without admin access will see an "Access Denied" message when
-            trying to access the CMS.
-          </p>
-        </div>
       </main>
     </div>
   );
