@@ -60,13 +60,13 @@ const Footer = () => {
                   href="mailto:info@pathstrategyconsulting.com"
                   className="text-accent-foreground/80 hover:text-accent-foreground text-sm transition-colors"
                 >
-                  info@pathstrategyconsulting.com
+                  info@pathstrategyconsulting.com.ng
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="h-5 w-5 mt-0.5 text-accent-foreground/60" />
                 <span className="text-accent-foreground/80 text-sm">
-                  Lagos, Nigeria
+                  Abuja, Nigeria
                 </span>
               </li>
             </ul>
