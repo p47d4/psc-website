@@ -4,7 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Mail, Users, LogOut, Loader2, AlertTriangle } from "lucide-react";
+import { FileText, Mail, Users, LogOut, Loader2, AlertTriangle, BookOpen } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Dashboard = () => {
@@ -12,6 +12,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [stats, setStats] = useState({
     reports: 0,
+    blogPosts: 0,
     submissions: 0,
     unreadSubmissions: 0,
     users: 0,
@@ -32,8 +33,9 @@ const Dashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const [reportsRes, submissionsRes, usersRes] = await Promise.all([
+      const [reportsRes, blogRes, submissionsRes, usersRes] = await Promise.all([
         supabase.from("insights_reports").select("id", { count: "exact", head: true }),
+        supabase.from("blog_posts").select("id", { count: "exact", head: true }),
         supabase.from("contact_submissions").select("id, is_read", { count: "exact" }),
         supabase.from("profiles").select("id", { count: "exact", head: true }),
       ]);
@@ -42,6 +44,7 @@ const Dashboard = () => {
 
       setStats({
         reports: reportsRes.count || 0,
+        blogPosts: blogRes.count || 0,
         submissions: submissionsRes.count || 0,
         unreadSubmissions: unread,
         users: usersRes.count || 0,
@@ -121,7 +124,7 @@ const Dashboard = () => {
         <h1 className="text-3xl font-display font-bold mb-8">Dashboard</h1>
 
         {/* Stats Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <Card>
             <CardHeader className="pb-2">
               <CardDescription>Published Reports</CardDescription>
@@ -131,6 +134,18 @@ const Dashboard = () => {
             </CardHeader>
             <CardContent>
               <FileText className="h-8 w-8 text-primary/50" />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="pb-2">
+              <CardDescription>Blog Posts</CardDescription>
+              <CardTitle className="text-3xl font-display">
+                {loadingStats ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.blogPosts}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <BookOpen className="h-8 w-8 text-accent/50" />
             </CardContent>
           </Card>
 
@@ -172,7 +187,7 @@ const Dashboard = () => {
 
         {/* Quick Actions */}
         <h2 className="text-xl font-display font-semibold mb-4">Quick Actions</h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <Link to="/cms/reports">
             <Card className="hover:border-primary transition-colors cursor-pointer h-full">
               <CardHeader>
@@ -180,6 +195,18 @@ const Dashboard = () => {
                 <CardTitle className="text-lg">Manage Reports</CardTitle>
                 <CardDescription>
                   Upload, edit, and publish research reports
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </Link>
+
+          <Link to="/cms/blog">
+            <Card className="hover:border-primary transition-colors cursor-pointer h-full">
+              <CardHeader>
+                <BookOpen className="h-8 w-8 text-accent mb-2" />
+                <CardTitle className="text-lg">Blog Posts</CardTitle>
+                <CardDescription>
+                  Create and manage blog articles
                 </CardDescription>
               </CardHeader>
             </Card>

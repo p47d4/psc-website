@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { FileText, Download, Calendar, Loader2 } from "lucide-react";
 import { format } from "date-fns";
-
+import SocialShare from "@/components/SocialShare";
 interface Report {
   id: string;
   title: string;
@@ -61,6 +61,7 @@ const Insights = () => {
     document.body.removeChild(link);
   };
 
+  const getReportShareUrl = (report: Report) => `${window.location.origin}/insights#${report.id}`;
   return (
     <Layout>
       <PageHeader
@@ -128,23 +129,28 @@ const Insights = () => {
                       </CardDescription>
                     )}
                   </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <CardContent>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
                         <Calendar className="h-4 w-4" />
                         {format(new Date(report.published_at || report.created_at), "MMM d, yyyy")}
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDownload(report.file_url, report.file_name)}
-                        className="text-primary hover:text-primary/80"
-                      >
-                        <Download className="h-4 w-4 mr-1" />
-                        Download
-                      </Button>
-                    </div>
-                  </CardContent>
+                      <div className="flex items-center justify-between">
+                        <SocialShare 
+                          title={report.title} 
+                          url={getReportShareUrl(report)} 
+                          description={report.description || undefined}
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDownload(report.file_url, report.file_name)}
+                          className="text-primary hover:text-primary/80"
+                        >
+                          <Download className="h-4 w-4 mr-1" />
+                          Download
+                        </Button>
+                      </div>
+                    </CardContent>
                 </Card>
               ))}
             </div>
