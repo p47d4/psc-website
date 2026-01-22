@@ -11,10 +11,13 @@ import WhyPSC from "./pages/WhyPSC";
 import Clients from "./pages/Clients";
 import Contact from "./pages/Contact";
 import Insights from "./pages/Insights";
+import Blog from "./pages/Blog";
+import BlogPostPage from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/cms/Login";
 import Dashboard from "./pages/cms/Dashboard";
 import Reports from "./pages/cms/Reports";
+import BlogPosts from "./pages/cms/BlogPosts";
 import Submissions from "./pages/cms/Submissions";
 import Users from "./pages/cms/Users";
 
@@ -35,9 +38,12 @@ const App = () => (
             <Route path="/clients" element={<Clients />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/insights" element={<Insights />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPostPage />} />
             <Route path="/cms/login" element={<Login />} />
             <Route path="/cms" element={<Dashboard />} />
             <Route path="/cms/reports" element={<Reports />} />
+            <Route path="/cms/blog" element={<BlogPosts />} />
             <Route path="/cms/submissions" element={<Submissions />} />
             <Route path="/cms/users" element={<Users />} />
             <Route path="*" element={<NotFound />} />
